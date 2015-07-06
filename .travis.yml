@@ -12,3 +12,4 @@ script:
 notifications:
   email:
     - niek.bartholomeus@gmail.com
+
