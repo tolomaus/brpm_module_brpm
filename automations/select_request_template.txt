@@ -1,0 +1,13 @@
+###
+# request_template_id:
+#   name: Request template
+#   position: A1:C1
+#   type: in-external-single-select
+#   external_resource: select_request_template
+#   required: yes
+###
+params["direct_execute"] = "true"
+
+require "#{params["SS_script_support_path"]}/git_repos/brpm_content/modules/framework/brpm_script_executor.rb"
+
+BrpmScriptExecutor.execute_automation_script("brpm", "select_request_template", params)

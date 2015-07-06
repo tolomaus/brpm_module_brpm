@@ -1,0 +1,5 @@
+params["direct_execute"] = "true"
+
+require "#{params["SS_script_support_path"]}/git_repos/brpm_content/modules/framework/brpm_script_executor.rb"
+
+BrpmScriptExecutor.execute_automation_script("brpm", "create_release_from_excel", params)

@@ -1,0 +1,5 @@
+require "#{params["SS_script_support_path"]}/git_repos/brpm_content/modules/framework/brpm_script_executor.rb"
+
+def execute(script_params, parent_id, offset, max_records)
+  BrpmScriptExecutor.execute_resource_automation_script("brpm", "select_application", script_params, parent_id, offset, max_records)
+end
