@@ -3,10 +3,11 @@ require "brpm_script_executor"
 
 def setup_brpm_auto
   FileUtils.mkdir_p "/tmp/brpm_content"
+  FileUtils.ln_sf(File.expand_path("#{File.dirname(__FILE__)}/.."), "#{ENV["GEM_HOME"]}/gems/brpm_module_brpm-latest")
 
   BrpmAuto.setup(get_default_params)
 
-  BrpmAuto.require_module "brpm"
+  BrpmAuto.require_module_from_gem "brpm_module_brpm"
 
   @brpm_rest_client = BrpmRestClient.new('http://brpm-content.pulsar-it.be:8088/brpm', ENV["BRPM_API_TOKEN"])
 end

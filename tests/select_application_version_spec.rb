@@ -16,7 +16,7 @@ describe 'select application version' do
       params["application"] = 'E-Finance'
       params["application_version"] = '1.0.0'
 
-      BrpmScriptExecutor.execute_automation_script("brpm", "select_application_version", params)
+      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "select_application_version", params)
 
       expect(BrpmAuto.request_params.has_key?("application_version"))
       expect(BrpmAuto.request_params["application_version"]).to eq("1.0.0")
@@ -35,7 +35,7 @@ describe 'select application version' do
       params["application"] = 'E-Finance'
       params["application_version"] = '1.0.0'
 
-      BrpmScriptExecutor.execute_automation_script("brpm", "select_application_version", params)
+      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "select_application_version", params)
 
       expect(BrpmAuto.request_params.has_key?("application_version"))
       expect(BrpmAuto.request_params["application_version"]).to eq("2.0.0")

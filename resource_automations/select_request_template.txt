@@ -1,4 +1,4 @@
-require "#{params["SS_script_support_path"]}/git_repos/brpm_content/modules/framework/brpm_script_executor.rb"
+require "#{ENV["BRPM_CONTENT_HOME"] || "#{ENV["BRPM_HOME"]}/modules"}/gems/brpm_content-#{ENV["BRPM_CONTENT_VERSION"] || "latest"}/modules/framework/brpm_script_executor.rb"
 
 def execute(script_params, parent_id, offset, max_records)
   BrpmScriptExecutor.execute_resource_automation_script("brpm", "select_request_template", script_params, parent_id, offset, max_records)

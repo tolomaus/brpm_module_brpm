@@ -6,8 +6,7 @@ before_install:
 bundler_args: '' #remove the --deployment flag that causes the gems to be installed in .../1.9.1/...
 
 script:
-  - ln -s $PWD $GEM_HOME/gems/brpm_module_brpm-latest
-  - bundle exec rspec tests --format documentation --color
+  - rspec tests --format documentation --color
 
 notifications:
   email:
