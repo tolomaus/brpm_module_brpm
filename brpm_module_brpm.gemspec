@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary       = config["summary"]
   s.description   = config["description"]
 
-  s.add_runtime_dependency "brpm_content", ">=0.1.7"
+  s.add_runtime_dependency "brpm_content", ">=0.1.10"
 
   if config["dependencies"]
     config["dependencies"].each do |dependency|
