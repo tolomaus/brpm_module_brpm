@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    brpm_module_brpm (0.1.3)
+    brpm_module_brpm (0.1.4)
       brpm_content (>= 0.1.11)
 
 GEM

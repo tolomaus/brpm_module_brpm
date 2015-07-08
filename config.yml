@@ -2,10 +2,10 @@ dependencies:
 
 integration_servers:
 
-version: 0.1.3
+version: 0.1.4
 
 author: Niek Bartholomeus
 email: niek.bartholomeus@gmail.com
-homepage: https://github.com/BMC-RLM/brpm_module_selenium
+homepage: https://github.com/BMC-RLM/brpm_module_brpm
 summary: BRPM automation scripts and libraries to run on top of the BRPM Content framework
 description: BRPM automation scripts and libraries to run on top of the BRPM Content framework. See https://github.com/BMC-RLM/brpm_content for more information about the BRPM Content framework

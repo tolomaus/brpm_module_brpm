@@ -29,6 +29,6 @@ params["brpm_api_token"] = "$BRPM_TOKEN"
 params["log_file"] = "$LOG_FILE"
 params["also_log_to_console"] = "true"
 
-BrpmScriptExecutor.execute_automation_script("brpm_module_brpm", "create_release_request", params)
+BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_release_request", params)
 EORUBY
 
