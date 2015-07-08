@@ -65,7 +65,7 @@ end
 
 def create_symlink_to_gemset
   module_name = File.basename(File.expand_path("#{File.dirname(__FILE__)}/.."))
-  symlink = "#{ENV["GEM_HOME"]}/gems/#{module_name}-latest"
+  symlink = "#{ENV["GEM_HOME"]}/gems/#{module_name}-999.0.0"
   FileUtils.rm(symlink) if File.exists?(symlink)
   FileUtils.ln_s(File.expand_path("#{File.dirname(__FILE__)}/.."), symlink)
 end
