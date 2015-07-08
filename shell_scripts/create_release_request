@@ -2,20 +2,20 @@
 require "brpm_script_executor"
 
 params = {}
-params["application_name"] = "$APPLICATION_NAME"
-params["application_version"] = "$APPLICATION_VERSION"
+params["application_name"] = ENV["APPLICATION_NAME"]
+params["application_version"] = ENV["APPLICATION_VERSION"]
 
-params["ef_net_version"] = "$EF_NET_VERSION"
-params["ef_java_version"] = "$EF_JAVA_VERSION"
+params["ef_net_version"] = ENV["EF_NET_VERSION"]
+params["ef_java_version"] = ENV["EF_JAVA_VERSION"]
 
-params["release_request_template_name"] = "$RELEASE_REQUEST_TEMPLATE_NAME"
-params["release_plan_template_name"] = "$RELEASE_PLAN_TEMPLATE_NAME" unless "$RELEASE_PLAN_TEMPLATE_NAME".empty?
-params["release_plan_name"] = "$RELEASE_PLAN_NAME" unless "$RELEASE_PLAN_NAME".empty?
+params["release_request_template_name"] = ENV["RELEASE_REQUEST_TEMPLATE_NAME"]
+params["release_plan_template_name"] = ENV["RELEASE_PLAN_TEMPLATE_NAME"] unless ENV["RELEASE_PLAN_TEMPLATE_NAME"].empty?
+params["release_plan_name"] = ENV["RELEASE_PLAN_NAME"] unless ENV["RELEASE_PLAN_NAME"].empty?
 
-params["brpm_url"] = "http://$BRPM_HOST:$BRPM_PORT/brpm"
-params["brpm_api_token"] = "$BRPM_TOKEN"
+params["brpm_url"] = "http://#{ENV["BRPM_HOST"]}:#{ENV["BRPM_PORT"]}/brpm"
+params["brpm_api_token"] = ENV["BRPM_TOKEN"]
 
-params["log_file"] = "$LOG_FILE"
+params["log_file"] = ENV["LOG_FILE"]
 params["also_log_to_console"] = "true"
 
 BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_release_request", params)
