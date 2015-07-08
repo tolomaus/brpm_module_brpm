@@ -9,8 +9,8 @@ params["ef_net_version"] = ENV["EF_NET_VERSION"]
 params["ef_java_version"] = ENV["EF_JAVA_VERSION"]
 
 params["release_request_template_name"] = ENV["RELEASE_REQUEST_TEMPLATE_NAME"]
-params["release_plan_template_name"] = ENV["RELEASE_PLAN_TEMPLATE_NAME"] unless ENV["RELEASE_PLAN_TEMPLATE_NAME"].empty?
-params["release_plan_name"] = ENV["RELEASE_PLAN_NAME"] unless ENV["RELEASE_PLAN_NAME"].empty?
+params["release_plan_template_name"] = ENV["RELEASE_PLAN_TEMPLATE_NAME"]
+params["release_plan_name"] = ENV["RELEASE_PLAN_NAME"]
 
 params["brpm_url"] = "http://#{ENV["BRPM_HOST"]}:#{ENV["BRPM_PORT"]}/brpm"
 params["brpm_api_token"] = ENV["BRPM_TOKEN"]
