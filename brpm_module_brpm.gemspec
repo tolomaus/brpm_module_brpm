@@ -12,8 +12,6 @@ Gem::Specification.new do |spec|
   spec.homepage      = config["homepage"]
   spec.summary       = config["summary"]
   spec.description   = config["description"]
-  spec.bindir        = "shell_scripts"
-  spec.executables   = ["create_release_request"]
 
   spec.add_runtime_dependency "brpm_content", ">=0.1.11"
 
