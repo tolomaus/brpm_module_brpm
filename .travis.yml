@@ -12,3 +12,7 @@ notifications:
   email:
     - niek.bartholomeus@gmail.com
 
+branches:
+  except:
+    - /^v[0-9.]*/
+
