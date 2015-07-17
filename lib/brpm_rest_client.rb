@@ -1127,7 +1127,7 @@ class BrpmRestClient
         found = false
         request["steps"].each do |step|
           if (monitor_step_name != "none" and step["name"] == monitor_step_name) or
-             (monitor_step_id != "none" and step["id"] == monitor_step_id)
+              (monitor_step_id != "none" and step["id"] == monitor_step_id)
             req_status = step["aasm_state"]
             found = true
             break
@@ -1387,7 +1387,6 @@ class BrpmRestClient
     sync_attribute "first received", now, ticket["extended_attributes_attributes"] unless ticket_already_exists
     sync_attribute "last updated", now, ticket["extended_attributes_attributes"]
 
-    # Create/update the ticket
     data = {}
     data["ticket"] = ticket
 
@@ -1399,6 +1398,109 @@ class BrpmRestClient
       BrpmAuto.log "Creating the ticket ..."
       create_ticket_from_hash(ticket)
       BrpmAuto.log "Ticket is created."
+    end
+  end
+
+  def get_project_servers
+    result = brpm_get "v1/project_servers"
+
+    if result["status"] == "success"
+      result_hash = result["response"]
+    else
+      if result["code"] == 404
+        result_hash = {}
+      else
+        raise "Error getting project servers: #{result["error_message"]}"
+      end
+    end
+
+    result_hash
+  end
+
+  def get_id_for_project_server_type(integration_server_type)
+    case integration_server_type.downcase
+    when "Jira".downcase
+      return 2
+    when "Hudson/Jenkins".downcase, "Jenkins".downcase
+      return 5
+    when "Remedy via AO".downcase, "AO".downcase, "AtriumOrchestrator".downcase
+      return 8
+    when "BMC Application Automation".downcase, "Bladelogic".downcase
+      return 9
+    when "RLM Deployment Engine".downcase, "BRPD".downcase
+      return 10
+    else
+      return nil
+    end
+  end
+
+  def get_scripts_by(filter)
+    filter_string = "?"
+    filter.each do |key, value|
+      filter_string += "filters[#{key}]=#{value}&"
+    end
+    filter_string = filter_string[0..-1]
+
+    result = brpm_get "v1/scripts#{filter_string}"
+
+    if result["status"] == "success"
+      result_hash = result["response"]
+    else
+      if result["code"] == 404
+        result_hash = {}
+      else
+        raise "Error searching for scripts by #{filter_string}: #{result["error_message"]}"
+      end
+    end
+
+    result_hash
+  end
+
+  def create_script_from_hash(script)
+    result = brpm_post "v1/scripts", { :script => script }
+
+    unless result["status"] == "success"
+      raise "Could not create the script: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def update_script_from_hash(script)
+    result = brpm_put "v1/scripts/#{script["id"]}", { :script => script }
+
+    unless result["status"] == "success"
+      raise "Could not update the script: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def create_or_update_script(script)
+    BrpmAuto.log "Checking if the corresponding script already exists ..."
+    existing_script = get_script_by_name script["name"]
+
+    if existing_script.nil?
+      BrpmAuto.log "Script doesn't exist yet."
+      script_already_exists=false
+    else
+      BrpmAuto.log "Script already exists."
+      script_already_exists=true
+
+      script["id"] = existing_script["id"].to_s
+    end
+
+    data = {}
+    data["script"] = script
+
+    if script_already_exists
+      BrpmAuto.log "Updating the script..."
+      update_script_from_hash(script)
+      BrpmAuto.log "Script is updated."
+    else
+      BrpmAuto.log "Creating the script..."
+      create_script_from_hash(script)
+      BrpmAuto.log "Script is created."
     end
   end
 
@@ -1470,32 +1572,32 @@ class BrpmRestClient
 
   private
 
-    def add_token(path)
-      path + (path.include?("?") ? "&" : "?") + "token=#{@brpm_api_token}"
-    end
+  def add_token(path)
+    path + (path.include?("?") ? "&" : "?") + "token=#{@brpm_api_token}"
+  end
 
-    def get_brpm_url(model_name, id = nil, filters = nil)
-      url = "#{@brpm_url}/v1/#{model_name}#{id == nil ? "" : "/#{id}" }"
-      url += "?#{filters}" if filters
+  def get_brpm_url(model_name, id = nil, filters = nil)
+    url = "#{@brpm_url}/v1/#{model_name}#{id == nil ? "" : "/#{id}" }"
+    url += "?#{filters}" if filters
 
-      add_token(url)
-    end
+    add_token(url)
+  end
 
-    def brpm_get(path, options = {})
-      Rest.get("#{@brpm_url}/#{add_token(path)}", options)
-    end
+  def brpm_get(path, options = {})
+    Rest.get("#{@brpm_url}/#{add_token(path)}", options)
+  end
 
-    def brpm_post(path, data, options = {})
-      Rest.post("#{@brpm_url}/#{add_token(path)}", data, options)
-    end
+  def brpm_post(path, data, options = {})
+    Rest.post("#{@brpm_url}/#{add_token(path)}", data, options)
+  end
 
-    def brpm_put(path, data, options = {})
-      Rest.put("#{@brpm_url}/#{add_token(path)}", data, options)
-    end
+  def brpm_put(path, data, options = {})
+    Rest.put("#{@brpm_url}/#{add_token(path)}", data, options)
+  end
 
-    def brpm_delete(path, options = {})
-      Rest.delete("#{@brpm_url}/#{add_token(path)}", options)
-    end
+  def brpm_delete(path, options = {})
+    Rest.delete("#{@brpm_url}/#{add_token(path)}", options)
+  end
 end
 
 
