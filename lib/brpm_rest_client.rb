@@ -1434,6 +1434,22 @@ class BrpmRestClient
     end
   end
 
+  def get_script_by_name(name)
+    result = brpm_get "v1/scripts?filters[name]=#{name}"
+
+    if result["status"] == "success"
+      result_hash = result["response"].first
+    else
+      if result["code"] == 404
+        result_hash = nil
+      else
+        raise "Could not find script #{name}: #{result["error_message"]}"
+      end
+    end
+
+    result_hash
+  end
+
   def get_scripts_by(filter)
     filter_string = "?"
     filter.each do |key, value|
