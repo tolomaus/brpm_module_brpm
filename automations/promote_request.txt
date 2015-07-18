@@ -17,8 +17,3 @@
 #   type: in-list-single
 #   list_pairs: true,Yes|false,No
 ###
-params["direct_execute"] = "true"
-
-require "#{ENV["BRPM_CONTENT_HOME"] || "#{ENV["BRPM_HOME"]}/modules"}/gems/brpm_content-#{ENV["BRPM_CONTENT_VERSION"] || "latest"}/modules/framework/brpm_script_executor.rb"
-
-BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "promote_request", params)

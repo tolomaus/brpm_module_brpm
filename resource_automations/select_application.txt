@@ -1,5 +1,0 @@
-require "#{ENV["BRPM_CONTENT_HOME"] || "#{ENV["BRPM_HOME"]}/modules"}/gems/brpm_content-#{ENV["BRPM_CONTENT_VERSION"] || "latest"}/modules/framework/brpm_script_executor.rb"
-
-def execute(script_params, parent_id, offset, max_records)
-  BrpmScriptExecutor.execute_resource_automation_script_from_gem("brpm_module_brpm", "select_application", script_params, parent_id, offset, max_records)
-end
