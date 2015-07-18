@@ -1511,13 +1511,15 @@ class BrpmRestClient
 
     if script_already_exists
       BrpmAuto.log "Updating the script..."
-      update_script_from_hash(script)
+      script = update_script_from_hash(script)
       BrpmAuto.log "Script is updated."
     else
       BrpmAuto.log "Creating the script..."
-      create_script_from_hash(script)
+      script = create_script_from_hash(script)
       BrpmAuto.log "Script is created."
     end
+
+    script
   end
 
   def sync_attributes(existing_attributes, updated_attributes)
