@@ -1434,6 +1434,106 @@ class BrpmRestClient
     end
   end
 
+  def get_list_item_by_id(list_item_id)
+    result = brpm_get "v1/list_items/#{list_item_id}"
+
+    if result["status"] == "success"
+      result_hash = result["response"]
+    else
+      raise "Error searching for list item #{list_item_id}: #{result["error_message"]}"
+    end
+
+    result_hash
+  end
+
+  def get_list_item_by_name(name)
+    result = brpm_get "v1/list_items?filters[value_text]=#{name}"
+
+    if result["status"] == "success"
+      result_hash = get_list_item_by_id(result["response"].first["id"])
+    else
+      if result["code"] == 404
+        result_hash = nil
+      else
+        raise "Could not find list item #{name}: #{result["error_message"]}"
+      end
+    end
+
+    result_hash
+  end
+
+  def get_list_items_by(filter)
+    filter_string = "?"
+    filter.each do |key, value|
+      filter_string += "filters[#{key}]=#{value}&"
+    end
+    filter_string = filter_string[0..-1]
+
+    result = brpm_get "v1/list_items#{filter_string}"
+
+    if result["status"] == "success"
+      result_hash = result["response"]
+    else
+      if result["code"] == 404
+        result_hash = {}
+      else
+        raise "Error searching for list items by #{filter_string}: #{result["error_message"]}"
+      end
+    end
+
+    result_hash
+  end
+
+  def create_list_item_from_hash(list_item)
+    result = brpm_post "v1/list_items", { :list_item => list_item }
+
+    unless result["status"] == "success"
+      raise "Could not create the list item: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def update_list_item_from_hash(list_item)
+    result = brpm_put "v1/list_items/#{list_item["id"]}", { :list_item => list_item }
+
+    unless result["status"] == "success"
+      raise "Could not update the list item: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def create_or_update_list_item(list_item)
+    BrpmAuto.log "Checking if the corresponding list item already exists ..."
+    existing_list_item = get_list_item_by_name list_item["name"]
+
+    if existing_list_item.nil?
+      BrpmAuto.log "List item doesn't exist yet."
+      list_item_already_exists=false
+    else
+      BrpmAuto.log "List item already exists."
+      list_item_already_exists=true
+
+      list_item["id"] = existing_list_item["id"].to_s
+    end
+
+    data = {}
+    data["list_item"] = list_item
+
+    if list_item_already_exists
+      BrpmAuto.log "Updating the list item..."
+      list_item = update_list_item_from_hash(list_item)
+      BrpmAuto.log "list_item is updated."
+    else
+      BrpmAuto.log "Creating the list item..."
+      list_item = create_list_item_from_hash(list_item)
+      BrpmAuto.log "List item is created."
+    end
+
+    list_item
+  end
+
   def get_script_by_name(name)
     result = brpm_get "v1/scripts?filters[name]=#{name}"
 
@@ -1522,6 +1622,22 @@ class BrpmRestClient
     script
   end
 
+  def get_work_task_by_name(name)
+    result = brpm_get "v1/work_tasks?filters[name]=#{name}"
+
+    if result["status"] == "success"
+      result_hash = result["response"].first
+    else
+      if result["code"] == 404
+        result_hash = nil
+      else
+        raise "Could not find work_task #{name}: #{result["error_message"]}"
+      end
+    end
+
+    result_hash
+  end
+
   def sync_attributes(existing_attributes, updated_attributes)
     existing_attributes ||= []
     updated_attributes ||= []
@@ -1553,22 +1669,6 @@ class BrpmRestClient
     end
 
     attribute["value_text"] = value
-  end
-
-  def get_work_task_by_name(name)
-    result = brpm_get "v1/work_tasks?filters[name]=#{name}"
-
-    if result["status"] == "success"
-      result_hash = result["response"].first
-    else
-      if result["code"] == 404
-        result_hash = nil
-      else
-        raise "Could not find work_task #{name}: #{result["error_message"]}"
-      end
-    end
-
-    result_hash
   end
 
   # Sends an email based on step recipients
