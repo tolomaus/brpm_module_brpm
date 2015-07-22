@@ -1,4 +1,4 @@
-params
+params:
   request_template:
     name: request_template
     required: no

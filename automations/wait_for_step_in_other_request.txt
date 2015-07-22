@@ -1,4 +1,4 @@
-params
+params:
   other_request_step:
     name: other_request_step
     position: A1:F10
