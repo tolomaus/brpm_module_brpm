@@ -1636,10 +1636,10 @@ class BrpmRestClient
     result = brpm_get "v1/scripts?filters[name]=#{name}"
 
     if result["status"] == "success"
-      if result["response"]
-        result_hash = result["response"].first
-      else
+      if result["response"] == "null"
         result_hash = nil
+      else
+        result_hash = result["response"].first
       end
     else
       if result["code"] == 404
