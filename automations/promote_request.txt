@@ -1,19 +1,19 @@
-###
-# request_template:
-#   name: request_template
-#   required: no
-# source_stage:
-#   name: source_stage
-#   required: yes
-# target_stage:
-#   name: target_stage
-#   required: yes
-# target_env:
-#   name: target_env
-#   required: yes
-# execute_target_request:
-#   name: execute_target_request
-#   required: yes
-#   type: in-list-single
-#   list_pairs: true,Yes|false,No
-###
+params
+  request_template:
+    name: request_template
+    required: no
+  source_stage:
+    name: source_stage
+    required: yes
+  target_stage:
+    name: target_stage
+    required: yes
+  target_env:
+    name: target_env
+    required: yes
+  execute_target_request:
+    name: execute_target_request
+    required: yes
+    type: in-list-single
+    list_pairs: true,Yes|false,No
+

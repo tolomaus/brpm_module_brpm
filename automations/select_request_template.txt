@@ -1,8 +1,8 @@
-###
-# request_template_id:
-#   name: Request template
-#   position: A1:C1
-#   type: in-external-single-select
-#   external_resource: select_request_template
-#   required: yes
-###
+params
+  request_template_id:
+    name: Request template
+    position: A1:C1
+    type: in-external-single-select
+    external_resource: select_request_template
+    required: yes
+

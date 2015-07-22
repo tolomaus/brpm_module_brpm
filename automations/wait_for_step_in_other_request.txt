@@ -1,8 +1,8 @@
-###
-# other_request_step:
-#   name: other_request_step
-#   position: A1:F10
-#   type: in-external-single-select
-#   external_resource: select_step_in_request
-#   required: yes
-###
+params
+  other_request_step:
+    name: other_request_step
+    position: A1:F10
+    type: in-external-single-select
+    external_resource: select_step_in_request
+    required: yes
+
