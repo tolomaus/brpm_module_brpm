@@ -1434,6 +1434,74 @@ class BrpmRestClient
     end
   end
 
+  def get_list_by_id(list_id)
+    result = brpm_get "v1/lists/#{list_id}"
+
+    if result["status"] == "success"
+      result_hash = result["response"]
+    else
+      raise "Error searching for list #{list_id}: #{result["error_message"]}"
+    end
+
+    result_hash
+  end
+
+  def get_list_by_name(name)
+    result = brpm_get "v1/lists?filters[name]=#{name}"
+
+    if result["status"] == "success"
+      result_hash = result["response"].first
+    else
+      if result["code"] == 404
+        result_hash = nil
+      else
+        raise "Could not find list item #{name}: #{result["error_message"]}"
+      end
+    end
+
+    result_hash
+  end
+
+  def create_list_from_hash(list)
+    result = brpm_post "v1/lists", { :list => list }
+
+    unless result["status"] == "success"
+      raise "Could not create the list: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def update_list_from_hash(list)
+    result = brpm_put "v1/lists/#{list["id"]}", { :list => list }
+
+    unless result["status"] == "success"
+      raise "Could not update the list: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def archive_list(list_id)
+    result = brpm_put "v1/lists/#{list_id}", { :toggle_archive => true }
+
+    unless result["status"] == "success"
+      raise "Could not archive the list: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def delete_list(list_id)
+    result = brpm_delete "v1/lists/#{list_id}"
+
+    unless result["status"] == "success"
+      raise "Could not delete the list: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
   def get_list_item_by_id(list_item_id)
     result = brpm_get "v1/list_items/#{list_item_id}"
 
@@ -1532,6 +1600,26 @@ class BrpmRestClient
     end
 
     list_item
+  end
+
+  def archive_list_item(list_item_id)
+    result = brpm_put "v1/list_items/#{list_item_id}", { :toggle_archive => true }
+
+    unless result["status"] == "success"
+      raise "Could not archive the list item: #{result["error_message"]}"
+    end
+
+    result["response"]
+  end
+
+  def delete_list_item(list_item_id)
+    result = brpm_delete "v1/list_items/#{list_item_id}"
+
+    unless result["status"] == "success"
+      raise "Could not delete the list item: #{result["error_message"]}"
+    end
+
+    result["response"]
   end
 
   def get_script_by_name(name)
