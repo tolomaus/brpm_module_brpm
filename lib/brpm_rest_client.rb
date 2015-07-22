@@ -1514,8 +1514,8 @@ class BrpmRestClient
     result_hash
   end
 
-  def get_list_item_by_name(name)
-    result = brpm_get "v1/list_items?filters[value_text]=#{name}"
+  def get_list_item_by_name(list_name, list_item_name)
+    result = brpm_get "v1/list_items?filters[list_name]=#{list_name}&filters[value_text]=#{list_item_name}"
 
     if result["status"] == "success"
       result_hash = get_list_item_by_id(result["response"].first["id"])
@@ -1572,13 +1572,23 @@ class BrpmRestClient
     result["response"]
   end
 
-  def create_or_update_list_item(list_item)
+  def create_or_update_list_item(list_name, list_item_name)
     BrpmAuto.log "Checking if the corresponding list item already exists ..."
-    existing_list_item = get_list_item_by_name list_item["name"]
+    existing_list_item = get_list_item_by_name(list_name, list_item_name)
 
+    list_item = {}
+    list_item["value_text"] = list_item_name
     if existing_list_item.nil?
       BrpmAuto.log "List item doesn't exist yet."
       list_item_already_exists=false
+
+      list = get_list_by_name(list_name)
+      if list
+        list_item["list_id"] = list["id"]
+      else
+        raise "A list with the name #{list_name} doesn't exist."
+      end
+
     else
       BrpmAuto.log "List item already exists."
       list_item_already_exists=true
