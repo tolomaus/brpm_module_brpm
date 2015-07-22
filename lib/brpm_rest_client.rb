@@ -1523,7 +1523,7 @@ class BrpmRestClient
       if result["code"] == 404
         result_hash = nil
       else
-        raise "Could not find list item #{name}: #{result["error_message"]}"
+        raise "Could not find list item #{list_item_name} in list #{list_name}: #{result["error_message"]}"
       end
     end
 
