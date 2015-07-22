@@ -1636,7 +1636,11 @@ class BrpmRestClient
     result = brpm_get "v1/scripts?filters[name]=#{name}"
 
     if result["status"] == "success"
-      result_hash = result["response"].first
+      if result["response"]
+        result_hash = result["response"].first
+      else
+        result_hash = nil
+      end
     else
       if result["code"] == 404
         result_hash = nil
@@ -1692,7 +1696,7 @@ class BrpmRestClient
 
   def create_or_update_script(script)
     BrpmAuto.log "Checking if the corresponding script already exists ..."
-    existing_script = get_script_by_name script["name"]
+    existing_script = get_script_by_name(script["name"])
 
     if existing_script.nil?
       BrpmAuto.log "Script doesn't exist yet."
