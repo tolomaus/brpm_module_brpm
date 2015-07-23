@@ -1636,11 +1636,7 @@ class BrpmRestClient
     result = brpm_get "v1/scripts?filters[name]=#{name}"
 
     if result["status"] == "success"
-      if result["response"] == "null"
-        result_hash = nil
-      else
-        result_hash = result["response"].first
-      end
+      result_hash = result["response"].first
     else
       if result["code"] == 404
         result_hash = nil
@@ -1695,30 +1691,44 @@ class BrpmRestClient
   end
 
   def create_or_update_script(script)
-    BrpmAuto.log "Checking if the corresponding script already exists ..."
-    existing_script = get_script_by_name(script["name"])
+    # TODO: the scripts REST API is not finished yet: get_script_by_name always returns "null". So for now we are going to create the script and if it returns an error that the name is already taken we will update it
 
-    if existing_script.nil?
-      BrpmAuto.log "Script doesn't exist yet."
-      script_already_exists=false
-    else
-      BrpmAuto.log "Script already exists."
-      script_already_exists=true
-
-      script["id"] = existing_script["id"].to_s
-    end
+    # BrpmAuto.log "Checking if the corresponding script already exists ..."
+    # existing_script = get_script_by_name(script["name"])
+    #
+    # if existing_script.nil?
+    #   BrpmAuto.log "Script doesn't exist yet."
+    #   script_already_exists=false
+    # else
+    #   BrpmAuto.log "Script already exists."
+    #   script_already_exists=true
+    #
+    #   script["id"] = existing_script["id"].to_s
+    # end
 
     data = {}
     data["script"] = script
 
-    if script_already_exists
-      BrpmAuto.log "Updating the script..."
-      script = update_script_from_hash(script)
-      BrpmAuto.log "Script is updated."
-    else
-      BrpmAuto.log "Creating the script..."
+    # if script_already_exists
+    #   BrpmAuto.log "Updating the script..."
+    #   script = update_script_from_hash(script)
+    #   BrpmAuto.log "Script is updated."
+    # else
+    #   BrpmAuto.log "Creating the script..."
+    #   script = create_script_from_hash(script)
+    #   BrpmAuto.log "Script is created."
+    # end
+
+    BrpmAuto.log "Creating the script..."
+    begin
       script = create_script_from_hash(script)
       BrpmAuto.log "Script is created."
+    rescue Exception => e
+      if "#{e}".include?("has already been taken")
+        BrpmAuto.log "Script already exists, updating it..."
+        script = update_script_from_hash(script)
+        BrpmAuto.log "Script is updated."
+      end
     end
 
     script
