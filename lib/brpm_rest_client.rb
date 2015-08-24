@@ -1725,6 +1725,22 @@ class BrpmRestClient
     script
   end
 
+  def delete_script_by_name(script_name)
+    script = get_script_by_name(script_name)
+
+    if script.nil?
+      BrpmAuto.log "This script doesn't exist. Continuing."
+      return
+    end
+
+    result = brpm_delete "v1/scripts/#{script["id"]}"
+
+    unless result["status"] == "success"
+      raise "Could not delete script: #{result["error_message"]}"
+    end
+
+  end
+
   def get_work_task_by_name(name)
     result = brpm_get "v1/work_tasks?filters[name]=#{name}"
 
