@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = File.basename(File.expand_path(File.dirname(__FILE__)))
   spec.version       = config["version"]
   spec.platform      = Gem::Platform::RUBY
-  spec.license       = "GNU General Public License v2.0"
+  spec.license       = config["license"]
   spec.authors       = [config["author"]]
   spec.email         = config["email"]
   spec.homepage      = config["homepage"]
