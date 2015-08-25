@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    brpm_module_brpm (0.1.28)
+    brpm_module_brpm (0.1.29)
       brpm_content (>= 0.1.11)
 
 GEM
@@ -10,7 +10,7 @@ GEM
     akami (1.2.2)
       gyoku (>= 0.4.0)
       nokogiri
-    brpm_content (0.1.16)
+    brpm_content (0.1.43)
       capistrano (= 2.15.5)
       json
       rest-client
