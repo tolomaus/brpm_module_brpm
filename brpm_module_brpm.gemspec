@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = config["summary"]
   spec.description   = config["description"]
 
-  spec.add_runtime_dependency "brpm_content", ">=0.1.11"
+  spec.add_runtime_dependency "brpm_content_framework", ">=0.1.55"
 
   if config["dependencies"]
     config["dependencies"].each do |dependency|
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
         modul = dependency
         options = {}
       end
-      spec.add_runtime_dependency modul, options["version"] unless ["brpm", "bladelogic", "jira"].include?(modul)
+      spec.add_runtime_dependency modul, options["version"]
     end
   end
 

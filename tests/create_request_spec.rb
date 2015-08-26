@@ -22,7 +22,7 @@ describe 'create request' do
       params["release_request_template_name"] = 'Release E-Finance'
       params["execute_target_request"] = 'No'
 
-      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_request", params)
+      BrpmScriptExecutor.execute_automation_script("brpm_module_brpm", "create_request", params)
 
       request = @brpm_rest_client.get_request_by_id(BrpmAuto.request_params["target_request_id"])
 
@@ -44,7 +44,7 @@ describe 'create request' do
       params["release_request_template_name"] = 'Release E-Finance'
       params["execute_target_request"] = 'No'
 
-      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_request", params)
+      BrpmScriptExecutor.execute_automation_script("brpm_module_brpm", "create_request", params)
 
       request = @brpm_rest_client.get_request_by_id(BrpmAuto.request_params["target_request_id"])
 
@@ -70,7 +70,7 @@ describe 'create request' do
       params["target_stage"] = 'Test'
       params["execute_target_request"] = 'No'
 
-      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_request", params)
+      BrpmScriptExecutor.execute_automation_script("brpm_module_brpm", "create_request", params)
 
       request = @brpm_rest_client.get_request_by_id(BrpmAuto.request_params["target_request_id"])
 

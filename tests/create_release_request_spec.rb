@@ -16,7 +16,7 @@ describe 'create release request' do
       params["application_version"] = '1.0.0'
       params["release_request_template_name"] = 'Release E-Finance'
 
-      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_release_request", params)
+      BrpmScriptExecutor.execute_automation_script("brpm_module_brpm", "create_release_request", params)
 
       request = @brpm_rest_client.get_request_by_id(BrpmAuto.params["result"]["request_id"])
 
@@ -33,7 +33,7 @@ describe 'create release request' do
       params["release_request_template_name"] = 'Release E-Finance'
       params["release_plan_template_name"] = 'E-Finance Release Plan'
 
-      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_release_request", params)
+      BrpmScriptExecutor.execute_automation_script("brpm_module_brpm", "create_release_request", params)
 
       request = @brpm_rest_client.get_request_by_id(BrpmAuto.params["result"]["request_id"])
 
@@ -53,7 +53,7 @@ describe 'create release request' do
       params["release_request_template_name"] = 'Release E-Finance'
       params["release_plan_name"] = 'E-Finance Release Plan v1.0.2'
 
-      BrpmScriptExecutor.execute_automation_script_from_gem("brpm_module_brpm", "create_release_request", params)
+      BrpmScriptExecutor.execute_automation_script("brpm_module_brpm", "create_release_request", params)
 
       request = @brpm_rest_client.get_request_by_id(BrpmAuto.params["result"]["request_id"])
 

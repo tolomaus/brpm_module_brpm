@@ -1,10 +1,6 @@
 require_relative "spec_helper"
 
 describe 'Gemspec' do
-  before(:each) do
-    cleanup_request_params
-  end
-
   it 'should have the right license' do
     config = YAML.load_file(File.expand_path("#{File.dirname(__FILE__)}/../config.yml"))
 

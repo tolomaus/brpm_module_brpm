@@ -7,7 +7,7 @@ def setup_brpm_auto
 
   BrpmAuto.setup(get_default_params)
 
-  BrpmAuto.require_module_from_gem "brpm_module_brpm"
+  BrpmAuto.require_module "brpm_module_brpm"
 
   @brpm_rest_client = BrpmRestClient.new('http://brpm-content.pulsar-it.be:8088/brpm', ENV["BRPM_API_TOKEN"])
 end
