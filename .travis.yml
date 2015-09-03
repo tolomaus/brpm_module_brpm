@@ -8,7 +8,7 @@ before_install:
 bundler_args: '' #remove the --deployment flag that causes the gems to be installed in .../1.9.1/...
 
 script:
-  - rspec tests --format documentation --color
+  - bundle exec rspec tests --format documentation --color
 
 notifications:
   email:
