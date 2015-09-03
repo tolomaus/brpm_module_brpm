@@ -3,7 +3,7 @@ require "yaml"
 config = YAML.load_file(File.join(File.dirname(__FILE__), "config.yml"))
 
 Gem::Specification.new do |spec|
-  spec.name          = File.basename(File.expand_path(File.dirname(__FILE__)))
+  spec.name          = File.basename(File.expand_path(File.dirname(__FILE__))).sub("-#{config["version"]}", "")
   spec.version       = config["version"]
   spec.platform      = Gem::Platform::RUBY
   spec.license       = config["license"]
@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = config["summary"]
   spec.description   = config["description"]
 
-  spec.add_runtime_dependency "brpm_content_framework", ">=0.1.55"
+  spec.add_runtime_dependency "brpm_content_framework", ">=0.2.8"
 
   if config["dependencies"]
     config["dependencies"].each do |dependency|
@@ -32,8 +32,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
 
   spec.files         = `git ls-files`.split("\n")
-  spec.require_path  = 'lib'
-
   spec.executables   = spec.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  spec.bindir        = "bin"
 end
