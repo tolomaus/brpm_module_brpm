@@ -28,9 +28,6 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
-
   spec.files         = `git ls-files`.split("\n")
   spec.executables   = spec.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
 end
