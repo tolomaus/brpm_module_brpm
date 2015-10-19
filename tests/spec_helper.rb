@@ -3,7 +3,6 @@ require "brpm_script_executor"
 
 def setup_brpm_auto
   FileUtils.mkdir_p "/tmp/brpm_content"
-  create_symlink_to_gemset
 
   BrpmAuto.setup(get_default_params)
 
@@ -61,11 +60,4 @@ def cleanup_version_tags_for_app(app_name)
   version_tags.each do |version_tag|
     @brpm_rest_client.delete_version_tag(version_tag["id"])
   end
-end
-
-def create_symlink_to_gemset
-  module_name = File.basename(File.expand_path("#{File.dirname(__FILE__)}/.."))
-  symlink = "#{ENV["GEM_HOME"]}/gems/#{module_name}-999.0.0"
-  FileUtils.rm(symlink) if File.exists?(symlink)
-  FileUtils.ln_s(File.expand_path("#{File.dirname(__FILE__)}/.."), symlink)
 end
