@@ -28,8 +28,10 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
+  unless ENV["BRPM_CONTENT_FRAMEWORK_DEPLOYMENT"]
+    spec.add_development_dependency "rake"
+    spec.add_development_dependency "rspec"
+  end
 
   spec.files         = `git ls-files`.split("\n")
   spec.executables   = spec.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
