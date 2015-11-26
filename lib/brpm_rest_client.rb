@@ -1430,6 +1430,8 @@ class BrpmRestClient
       return 9
     when "RLM Deployment Engine".downcase, "BRPD".downcase
       return 10
+    when "ServiceNow".downcase, "SNOW".downcase
+      return 13
     else
       return nil
     end
