@@ -1422,6 +1422,8 @@ class BrpmRestClient
     case integration_server_type.downcase
     when "Jira".downcase
       return 2
+    when "ServiceNow".downcase, "SNOW".downcase
+      return 4
     when "Hudson/Jenkins".downcase, "Jenkins".downcase
       return 5
     when "Remedy via AO".downcase, "AO".downcase, "AtriumOrchestrator".downcase
@@ -1430,8 +1432,6 @@ class BrpmRestClient
       return 9
     when "RLM Deployment Engine".downcase, "BRPD".downcase
       return 10
-    when "ServiceNow".downcase, "SNOW".downcase
-      return 13
     else
       return nil
     end
