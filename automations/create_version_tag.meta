@@ -1,0 +1,11 @@
+params:
+  application:
+    name: Application
+    required: yes
+  component:
+    name: Component
+    required: yes
+  component_version:
+    name: Component version
+    required: yes
+
